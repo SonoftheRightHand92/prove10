@@ -21,9 +21,12 @@ function getRestaurant(req, res) {
     console.log("Retrieving restaurant id", id);
 
     getTable(id, function(error, result) {
-        console.log("Back from the getTable function with reult: ", result);
+        if (error || result == null || result.length != 1) {
+            res.status(500).json({success:false, data: error});
+        } else {
 
-        res.json(result[0]);
+            res.json(result[0]);
+        }
     });
 }
 
