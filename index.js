@@ -8,43 +8,43 @@ const pool = new Pool({connectionString: connectionString});
 
 app.set("port", (process.env.PORT || 5000));
 
-// app.get("/getRestaurant", getRestaurant);
+app.get("/getRestaurant", getRestaurant);
 
 app.listen(app.get("port"), function () {
     console.log("Now listening for connections on port: ", app.get("port"));
 });
 
-// function getRestaurant(req, res) {
-//     console.log("Getting the restaurant information.");
+function getRestaurant(req, res) {
+    console.log("Getting the restaurant information.");
 
-//     var id = req.query.id;
-//     console.log("Retrieving restaurant id", id);
+    var id = req.query.id;
+    console.log("Retrieving restaurant id", id);
 
-//     getTable(id, function(error, result) {
-//         if (error || result == null || result.length != 1) {
-//             res.status(500).json({success:false, data: error});
-//         } else {
+    getTable(id, function(error, result) {
+        if (error || result == null || result.length != 1) {
+            res.status(500).json({success:false, data: error});
+        } else {
 
-//             res.json(result[0]);
-//         }
-//     });
-// }
+            res.json(result[0]);
+        }
+    });
+}
 
-// function getTable(id, callback) {
-//     console.log("get restaurant called with id: ", id);
+function getTable(id, callback) {
+    console.log("get restaurant called with id: ", id);
 
-//     var sql = "SELECT * FROM restaurants WHERE id = $1::int";
-//     var params = [id];
+    var sql = "SELECT * FROM restaurants WHERE id = $1::int";
+    var params = [id];
 
-//     pool.query(sql, params, function(err, result) {
-//         if (err) {
-//             console.log("error with the database occured");
-//             console.log(err);
-//             callback(err, null);
-//         }
+    pool.query(sql, params, function(err, result) {
+        if (err) {
+            console.log("error with the database occured");
+            console.log(err);
+            callback(err, null);
+        }
 
-//         console.log("Found database result: " + JSON.stringify(result.rows));
+        console.log("Found database result: " + JSON.stringify(result.rows));
 
-//         callback(null, result.rows);
-//     });
+        callback(null, result.rows);
+    });
 }
